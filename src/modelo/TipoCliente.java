@@ -1,0 +1,11 @@
+package modelo;
+
+public enum TipoCliente {
+    EMPLEADO,
+    INDEPENDIENTE,
+    PENSIONADO,
+    ESTUDIANTE,
+    DUENO_EMPRESA,
+    PRESTADOR_SERVICIOS,
+    RENTISTA_CAPITAL
+}
