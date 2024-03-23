@@ -6,5 +6,8 @@ public interface TarjetaCredito {
     void pagarSaldo(double monto);
     double consultarSaldo();
     double consultarLimiteCredito();
+	String getNumeroTarjeta();
+	String getFechaVencimiento();
+	int getCodigoSeguridad();
 }
 

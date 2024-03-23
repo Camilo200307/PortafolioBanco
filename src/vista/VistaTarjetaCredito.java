@@ -24,12 +24,28 @@ public class VistaTarjetaCredito extends JFrame {
 
         setLayout(new FlowLayout());
 
-        txtMonto = new JTextField(10);
+        txtMonto = new JTextField(10); // Campo de texto para ingresar el monto
         btnAutorizarCompra = new JButton("Autorizar Compra");
         btnPagarSaldo = new JButton("Pagar Saldo");
         btnConsultarSaldo = new JButton("Consultar Saldo");
         btnConsultarLimiteCredito = new JButton("Consultar Límite de Crédito");
 
+        JLabel lblNumeroTarjeta = new JLabel("Número de Tarjeta: " + tarjetaCredito.getNumeroTarjeta());
+        JLabel lblFechaVencimiento = new JLabel("Fecha de Vencimiento: " + tarjetaCredito.getFechaVencimiento());
+        JLabel lblCodigoSeguridad = new JLabel("Código de Seguridad: " + tarjetaCredito.getCodigoSeguridad());
+
+        // Agregar el campo de texto al panel
+        add(txtMonto);
+        add(lblNumeroTarjeta);
+        add(lblFechaVencimiento);
+        add(lblCodigoSeguridad);
+
+        add(btnAutorizarCompra);
+        add(btnPagarSaldo);
+        add(btnConsultarSaldo);
+        add(btnConsultarLimiteCredito);
+
+        // Agregar ActionListener a los botones
         btnAutorizarCompra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,12 +79,5 @@ public class VistaTarjetaCredito extends JFrame {
                 JOptionPane.showMessageDialog(VistaTarjetaCredito.this, "Límite de crédito: " + limite);
             }
         });
-
-        add(new JLabel("Monto:"));
-        add(txtMonto);
-        add(btnAutorizarCompra);
-        add(btnPagarSaldo);
-        add(btnConsultarSaldo);
-        add(btnConsultarLimiteCredito);
     }
 }

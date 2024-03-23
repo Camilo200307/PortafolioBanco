@@ -9,8 +9,7 @@ import java.awt.event.ActionListener;
 
 public class VistaProductos extends JFrame {
     private ControladorBanco controlador;
-    private JTextField txtNumeroDocumento;
-    private JTextArea txtAreaProductos;
+    private JPanel panelProductos;
 
     public VistaProductos(ControladorBanco controlador) {
         this.controlador = controlador;
@@ -18,44 +17,27 @@ public class VistaProductos extends JFrame {
     }
 
     private void initComponents() {
-        // Configuración inicial del JFrame.
-        setTitle("Consulta de Productos Bancarios");
+        
+        setTitle("Consulta de Productos Bancarios"); 
         setSize(500, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         setLayout(new BorderLayout());
         
-        // Panel para ingresar el documento.
-        JPanel panelDocumento = new JPanel();
-        panelDocumento.setLayout(new FlowLayout());
-        JLabel lblDocumento = new JLabel("Número de documento:");
-        txtNumeroDocumento = new JTextField(20);
-        JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controlador.buscarProductosParaUsuario(txtNumeroDocumento.getText());
-            }
-        });
-        panelDocumento.add(lblDocumento);
-        panelDocumento.add(txtNumeroDocumento);
-        panelDocumento.add(btnBuscar);
         
-        // Panel para mostrar los productos.
-        JPanel panelProductos = new JPanel();
+        panelProductos = new JPanel();
         panelProductos.setLayout(new BoxLayout(panelProductos, BoxLayout.Y_AXIS));
         
-        // Añadir componentes al JFrame.
-        add(panelDocumento, BorderLayout.NORTH);
+        
         add(new JScrollPane(panelProductos), BorderLayout.CENTER);
     }
 
     
     public void mostrarProductos(AbstractFactoryPortafolio factory, Usuario usuario) {
-        JPanel panelProductos = new JPanel();
-        panelProductos.setLayout(new BoxLayout(panelProductos, BoxLayout.Y_AXIS));
         
-        // Crear y agregar botones para cada producto
+        panelProductos.removeAll();
+        
+        
         agregarBotonProducto(panelProductos, "Cuenta Nómina", factory, usuario);
         agregarBotonProducto(panelProductos, "Cuenta Ahorros", factory, usuario);
         agregarBotonProducto(panelProductos, "Tarjeta Crédito", factory, usuario);
@@ -64,28 +46,35 @@ public class VistaProductos extends JFrame {
         agregarBotonProducto(panelProductos, "CDT", factory, usuario);
         agregarBotonProducto(panelProductos, "Fondo de Inversión", factory, usuario);
         
-        // Reemplazar el área de texto con el panel de productos
-        add(new JScrollPane(panelProductos), BorderLayout.CENTER);
-        revalidate(); // Actualizar el layout
-        repaint(); // Redibujar el JFrame
+        
+        revalidate(); 
+        repaint(); 
+        
     }
-
+    
     private void agregarBotonProducto(JPanel panel, String nombreProducto, AbstractFactoryPortafolio factory, Usuario usuario) {
         JButton btnProducto = new JButton(nombreProducto);
         btnProducto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (nombreProducto.equals("Cuenta de Ahorros")) {
+                if (nombreProducto.equals("Cuenta Ahorros")) {
                     CuentaAhorros cuentaAhorros = factory.createCuentaAhorros(usuario);
                     if (cuentaAhorros != null) {
                         new VistaCuentaAhorros(cuentaAhorros).setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(VistaProductos.this, "El producto no está disponible.");
                     }
-                } else if (nombreProducto.equals("Tarjeta de Crédito")) {
+                } else if (nombreProducto.equals("Tarjeta Crédito")) {
                     TarjetaCredito tarjetaCredito = factory.createTarjetaCredito(usuario);
                     if (tarjetaCredito != null) {
                         new VistaTarjetaCredito(tarjetaCredito).setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(VistaProductos.this, "El producto no está disponible.");
+                    }
+                } else if (nombreProducto.equals("Cuenta Nómina")) {
+                    CuentaNomina cuentaNomina = factory.createCuentaNomina(usuario);
+                    if (cuentaNomina != null) {
+                        new VistaCuentaNomina(cuentaNomina).setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(VistaProductos.this, "El producto no está disponible.");
                     }
@@ -117,13 +106,6 @@ public class VistaProductos extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(VistaProductos.this, "El producto no está disponible.");
                     }
-                } else if (nombreProducto.equals("Cuenta Nómina")) {
-                    CuentaNomina cuentaNomina = factory.createCuentaNomina(usuario);
-                    if (cuentaNomina != null) {
-                        new VistaCuentaNomina(cuentaNomina).setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(VistaProductos.this, "El producto no está disponible.");
-                    }
                 } else {
                     JOptionPane.showMessageDialog(VistaProductos.this, "Producto no reconocido.");
                 }
@@ -133,6 +115,7 @@ public class VistaProductos extends JFrame {
 
 
         panel.add(btnProducto);
+        panel.add(Box.createVerticalGlue());
     }
 
 
